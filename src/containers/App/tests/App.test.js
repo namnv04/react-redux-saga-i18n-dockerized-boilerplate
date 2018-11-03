@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router';
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import { App, mapStateToProps } from '../App';
@@ -18,8 +18,12 @@ describe('<App />', () => {
   const mockChangeUsername = jest.fn();
 
   it('renders <App /> without crashing', () => {
+    const mockProps = {
+      changeUsername: mockChangeUsername,
+      t: jest.fn()
+    };
     const div = document.createElement('div');
-    ReactDOM.render(<App changeUsername={mockChangeUsername} />, div);
+    ReactDOM.render(<App {...mockProps} />, div);
     ReactDOM.unmountComponentAtNode(div);
   });
   it('renders <App /> without crashing', () => {
@@ -45,5 +49,21 @@ describe('<App />', () => {
       </MemoryRouter>
     );
     expect(wrapper.find(NotFoundPage)).toHaveLength(1);
+  });
+  describe('buttons click', () => {
+    it('clicked', () => {
+      const mockProps = {
+        changeUsername: mockChangeUsername,
+        t: jest.fn(),
+        i18n: {
+          changeLanguage: jest.fn()
+        }
+      };
+      const wrapper = shallow(<App {...mockProps} />);
+      wrapper.find('button.btn-set-locale').at(0).simulate('click');
+      expect(mockProps.i18n.changeLanguage).toHaveBeenCalledWith('en');
+      wrapper.find('button.btn-set-locale').at(1).simulate('click');
+      expect(mockProps.i18n.changeLanguage).toHaveBeenCalledWith('es');
+    });
   });
 });

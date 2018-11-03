@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withNamespaces } from 'react-i18next';
 
 import logo from './logo.svg';
 import './App.css';
@@ -39,8 +40,11 @@ export class App extends Component {
               Edits
               <code>src/App.js</code>
               and save to reload.
-              { this.props.username }
             </p>
+            <p>{ this.props.username }</p>
+            <p>{ this.props.t('Welcome to React') }</p>
+            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('en')}>en</button>
+            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('es')}>es</button>
             <a
               className="App-link"
               href="https://reactjs.org"
@@ -65,7 +69,9 @@ export class App extends Component {
 
 App.propTypes = {
   changeUsername: PropTypes.func,
-  username: PropTypes.string
+  username: PropTypes.string,
+  t: PropTypes.func,
+  i18n: PropTypes.object
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withNamespaces()(App));
