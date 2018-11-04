@@ -8,6 +8,7 @@ import logo from './logo.svg';
 import './App.css';
 import HomePage from '../HomePage/HomePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import Button from '@material-ui/core/Button';
 
 import { getUsername } from './selectors';
 import { changeUsername } from './actions';
@@ -38,13 +39,15 @@ export class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               Edits
-              <code>src/App.js</code>
+              <code> src/App.js </code>
               and save to reload.
             </p>
-            <p>{ this.props.username }</p>
             <p>{ this.props.t('Welcome to React') }</p>
             <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('en')}>en</button>
             <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('es')}>es</button>
+            <Button variant="contained" color="primary">
+              Hello World
+            </Button>
             <a
               className="App-link"
               href="https://reactjs.org"
