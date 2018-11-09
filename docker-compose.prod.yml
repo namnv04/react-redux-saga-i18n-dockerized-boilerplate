@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  react-app:
+    container_name: react-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    environment:
+      - NODE_ENV=production
+    command: npm run build

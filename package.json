@@ -1,5 +1,5 @@
 {
-  "name": "coins",
+  "name": "reactjs-boilerplate",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,8 +17,10 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=8080 react-scripts start",
     "build": "react-scripts build",
+    "dev": "docker-compose -f docker-compose.yml up",
+    "prod": "docker-compose -f docker-compose.prod.yml up",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject"
   },
