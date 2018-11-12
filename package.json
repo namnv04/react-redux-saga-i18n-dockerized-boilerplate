@@ -23,8 +23,13 @@
     "dev": "docker-compose -f docker-compose.yml up",
     "prod": "docker-compose -f docker-compose.prod.yml up",
     "test": "react-scripts test --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/ --cache"
   },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -47,6 +52,7 @@
     "enzyme-adapter-react-16": "^1.6.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "pre-commit": "^1.2.2"
   }
 }
