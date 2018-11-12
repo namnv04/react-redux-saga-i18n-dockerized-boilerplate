@@ -13,7 +13,7 @@ describe('actions', () => {
       });
       expect(mockDispatch).toHaveBeenNthCalledWith(2, {
         type: at.CHANGE_USERNAME,
-        payload:mockPayload
+        payload: mockPayload
       });
       expect(mockDispatch).toHaveBeenNthCalledWith(3, {
         type: at.CHANGE_USERNAME_DONE
