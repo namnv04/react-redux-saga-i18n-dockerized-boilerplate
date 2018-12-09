@@ -4,15 +4,17 @@ import { MemoryRouter } from 'react-router';
 import Enzyme, { mount, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import { App, mapStateToProps } from '../App';
-import { getUsername } from '../selectors';
+import { App, mapStateToProps, mapDispatchToProps } from '../App';
+import { selectors } from '../reducers';
 
 import HomePage from '../../HomePage/HomePage';
 import NotFoundPage from '../../NotFoundPage/NotFoundPage';
 
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+
 Enzyme.configure({ adapter: new Adapter() });
 
-jest.mock('../selectors');
+jest.mock('../reducers');
 
 describe('<App />', () => {
   const mockChangeUsername = jest.fn();
@@ -27,12 +29,15 @@ describe('<App />', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
   it('renders <App /> without crashing', () => {
-    const mockData = {
-      username: 'something'
+    const mockState = {
+      app: {
+        dog: 'something'
+      }
     };
-    getUsername.mockImplementation(() => mockData.username);
+    selectors.getDog = jest.fn(() => mockState.app.dog);
     const res = mapStateToProps();
-    expect(res).toEqual(mockData);
+    mapDispatchToProps();
+    expect(res).toEqual({ getDog: 'something' });
   });
   it('route to home', () => {
     const wrapper = mount(
@@ -64,6 +69,27 @@ describe('<App />', () => {
       expect(mockProps.i18n.changeLanguage).toHaveBeenCalledWith('en');
       wrapper.find('button.btn-set-locale').at(1).simulate('click');
       expect(mockProps.i18n.changeLanguage).toHaveBeenCalledWith('es');
+    });
+  });
+
+  describe('methods', () => {
+    let wrapper, instance;
+    const mockProps = {
+      t: jest.fn(),
+      i18n: {
+        changeLanguage: jest.fn()
+      },
+      requestDog: jest.fn()
+    };
+    beforeAll(() => {
+      wrapper = shallow(<App {...mockProps} />);
+      instance = wrapper.instance();
+    });
+    describe('onClickRequestDog', () => {
+      it('works', () => {
+        instance.onClickRequestDog();
+        expect(mockProps.requestDog).toHaveBeenCalled();
+      });
     });
   });
 });

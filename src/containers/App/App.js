@@ -1,35 +1,43 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withNamespaces } from 'react-i18next';
+import Button from '@material-ui/core/Button';
 
 import logo from './logo.svg';
 import './App.css';
 import HomePage from '../HomePage/HomePage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import Button from '@material-ui/core/Button';
 
-import { getUsername } from './selectors';
-import { changeUsername } from './actions';
+import { selectors } from './reducers';
+import { actions } from './actions';
 
 export const mapStateToProps = state => ({
-  username: getUsername(state)
+  getDog: selectors.getDog(state)
 });
 
-export const mapDispatchToProps = {
-  changeUsername
+export const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    ...actions
+  }, dispatch);
 };
 
 export class App extends Component {
   constructor(props) {
     super(props);
     this.props = props;
+    this.onClickRequestDog = this.onClickRequestDog.bind(this);
   }
 
   componentDidMount() {
-    this.props.changeUsername('nam.vuong');
   }
+
+  onClickRequestDog() {
+    this.props.requestDog(1);
+  }
+
 
   render() {
     return (
@@ -37,25 +45,22 @@ export class App extends Component {
         <div className="App">
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
+            <h2>Reactjs Boilerplate</h2>
+            <h4>Dockerized - Redux - Saga - i18n - React-Meterial - Jest - ESlint</h4>
+
+            <p>{ this.props.t('Welcome to React') }</p>
+            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('en')}>en</button>
+            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('es')}>es</button>
+            <Button onClick={ this.onClickRequestDog } variant="contained" color="primary">
+              Click to make ajax call
+            </Button>
+            <div dangerouslySetInnerHTML={{ __html: this.props.getDog || '&nbsp;' }} />
+            <hr/>
             <p>
               Edits
               <code> src/App.js </code>
               and save to reload.
             </p>
-            <p>{ this.props.t('Welcome to React') }</p>
-            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('en')}>en</button>
-            <button className="btn-set-locale" onClick={() => this.props.i18n.changeLanguage('es')}>es</button>
-            <Button variant="contained" color="primary">
-              Hello World
-            </Button>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
           </header>
 
           <div className="AppContent">
@@ -71,8 +76,9 @@ export class App extends Component {
 }
 
 App.propTypes = {
-  changeUsername: PropTypes.func,
-  username: PropTypes.string,
+  requestDog: PropTypes.func,
+  onRequestDog: PropTypes.func,
+  getDog: PropTypes.string,
   t: PropTypes.func,
   i18n: PropTypes.object
 };

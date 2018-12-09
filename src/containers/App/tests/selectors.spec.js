@@ -1,12 +1,12 @@
-import * as selectors from '../selectors';
+import { selectors } from '../reducers';
 
 describe('selectors', () => {
   it('getUsername', () => {
     const mockState = {
       app: {
-        username: 'something'
+        dog: 'something'
       }
     };
-    expect(selectors.getUsername(mockState)).toEqual('something');
+    expect(selectors.getDog(mockState)).toEqual('something');
   });
 });

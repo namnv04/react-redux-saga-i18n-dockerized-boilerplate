@@ -1,5 +1,5 @@
 /*
- * Home Actions
+ * Actions
  *
  * Actions change things in your application
  * Since this boilerplate uses a uni-directional data flow, specifically redux,
@@ -15,31 +15,18 @@
  *    }
  */
 
-import at from './action-types';
+export const types = {
+  REQUEST_DOG: 'App/REQUEST_DOG',
+  REQUEST_DOG_SUCCESS: 'App/REQUEST_DOG_SUCCESS',
+  REQUEST_DOG_ERROR: 'App/REQUEST_DOG_ERROR',
+};
 
-/**
- * Changes the input field of the form
- *
- * @param  {name} name The new text of the input field
- *
- * @return {object}    An action object with a type of CHANGE_USERNAME
- */
-export const changeUsername = (username) => (dispatch) => {
-  if (!username) {
-    return;
-  }
+export const initialState = {
+  dog: {}
+};
 
-  dispatch({
-    type: at.CHANGE_USERNAME_START
-  });
-
-  // API call
-  dispatch({
-    type: at.CHANGE_USERNAME,
-    payload: username
-  });
-
-  dispatch({
-    type: at.CHANGE_USERNAME_DONE
-  });
+export const actions = {
+  requestDog: (id) => ({ type: types.REQUEST_DOG, id }),
+  requestDogSuccess: (dog) => ({ type: types.REQUEST_DOG_SUCCESS, dog }),
+  requestDogError: (error) => ({ type: types.REQUEST_DOG_ERROR, error }),
 };

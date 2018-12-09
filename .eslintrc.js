@@ -24,6 +24,8 @@ module.exports = {
 		"object-curly-spacing": [ "error", "always" ],
 		"eol-last": ["error", "always"],
 		"computed-property-spacing": [ "error", "never" ],
+		"no-trailing-spaces": "error",
+		"no-multiple-empty-lines": "error",
 		"no-console": "warn",
 		"no-const-assign": "error",
 		"no-this-before-super": "error",
